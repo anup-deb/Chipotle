@@ -9,6 +9,6 @@ public class GestureApp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gesture_app);
-        //ANUP OMG HIi
+        //ANUP OMG HIisadasdas
     }
 }
