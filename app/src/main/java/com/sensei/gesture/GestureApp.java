@@ -9,8 +9,6 @@ import android.util.Log;
 
 import java.util.List;
 
-//HI ANUP OMGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
-
 public class GestureApp extends AppCompatActivity {
 
     private static final String TAG = "sensorMonitor";
