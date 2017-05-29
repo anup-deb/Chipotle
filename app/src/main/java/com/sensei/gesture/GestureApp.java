@@ -1,42 +1,59 @@
 package com.sensei.gesture;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
-public class GestureApp extends AppCompatActivity {
+class GestureApp {
 
     private static final String TAG = "sensorMonitor";
     private SensorManager sensorManager;
-    List <Sensor> deviceSensors;
+    private List <Sensor> deviceSensors;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private GyroService gyroService;
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    private boolean isGyroBound = false;
+
+    GestureApp (Context context){
+
+        Log.i(TAG, "hi");
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         deviceSensors = sensorManager.getSensorList (Sensor.TYPE_ALL);
         //for (int x = 0; x<deviceSensors.size(); x++)
         //{
         //    Log.i(TAG, deviceSensors.get(x).toString());
         //}
-        disableGestures();
-
-        setContentView(R.layout.activity_gesture_app);
+        Intent i = new Intent (context, GyroService.class);
+        context.bindService(i, gyroConnection, Context.BIND_AUTO_CREATE);
     }
 
-    /* Disable specific gestures based on whether or not the device has the necessary sensors
-     */
-    public void disableGestures (){
-        //need to implement
-
-        //if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null){
-        //    //Disable features that require the accelerometer
-        //}
+    String getTimeFromService(){
+        return gyroService.getCurrentTime();
     }
+
+    private ServiceConnection gyroConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            GyroService.MyLocalBinder binder = (GyroService.MyLocalBinder) service;
+            gyroService = binder.getService();
+            isGyroBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isGyroBound = false;
+        }
+    };
 }
