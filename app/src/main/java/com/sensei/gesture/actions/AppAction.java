@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-
 import java.util.List;
 
+
 public class AppAction extends Action {
+    public AppAction(){
+    }
+
     /**
      * Opens application given its package name. If not found on device, goes to Play Store.
      * @param context current context
