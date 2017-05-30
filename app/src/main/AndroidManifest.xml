@@ -12,13 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GestureApp">
+        <activity android:name=".display.AppLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".sensors.GyroService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".sensors.AccelService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
