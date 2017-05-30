@@ -22,10 +22,13 @@ class GestureApp {
     private SensorManager sensorManager;
     private List <Sensor> deviceSensors;
 
+    private AccelService accelService;
     private GyroService gyroService;
 
+    private boolean isAccelBound = false;
     private boolean isGyroBound = false;
 
+    //Constructor
     GestureApp (Context context){
 
         Log.i(TAG, "hi");
@@ -35,13 +38,31 @@ class GestureApp {
         //{
         //    Log.i(TAG, deviceSensors.get(x).toString());
         //}
+
         Intent i = new Intent (context, GyroService.class);
         context.bindService(i, gyroConnection, Context.BIND_AUTO_CREATE);
+
+        //i =  new Intent (context, AccelService.class);
+        //context.bindService(i, accelConnection, Context.BIND_AUTO_CREATE);
     }
 
     String getTimeFromService(){
         return gyroService.getCurrentTime();
     }
+
+    private ServiceConnection accelConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            AccelService.MyLocalBinder binder = (AccelService.MyLocalBinder) service;
+            accelService = binder.getService();
+            isAccelBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isAccelBound = false;
+        }
+    };
 
     private ServiceConnection gyroConnection = new ServiceConnection() {
         @Override

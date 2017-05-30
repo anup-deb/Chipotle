@@ -20,6 +20,10 @@
         <service
             android:name=".GyroService"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".AccelService"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 

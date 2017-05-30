@@ -1,26 +1,30 @@
 package com.sensei.gesture;
 
-import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.IBinder;
+import android.os.Binder;
 
-public class AccelActivity extends Activity implements SensorEventListener {
+public class AccelService extends Service implements SensorEventListener {
 
+    private final IBinder accelBinder = new MyLocalBinder();
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView (R.layout.activity_gesture_app);
-
+    public AccelService() {
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        return accelBinder; //Return the communication channel to the service.
     }
 
     @Override
@@ -49,14 +53,14 @@ public class AccelActivity extends Activity implements SensorEventListener {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    public void onDestroy() {
+        super.onDestroy();
+        sensorManager.unregisterListener(this);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
+    class MyLocalBinder extends Binder {
+        AccelService getService(){
+            return AccelService.this;
+        }
     }
 }
