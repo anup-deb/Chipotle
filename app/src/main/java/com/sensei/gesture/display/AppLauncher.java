@@ -1,9 +1,12 @@
-package com.sensei.gesture;
+package com.sensei.gesture.display;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.sensei.gesture.sensors.GestureApp;
+import com.sensei.gesture.R;
 
 public class AppLauncher extends AppCompatActivity {
 

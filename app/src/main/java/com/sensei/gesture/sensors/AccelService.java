@@ -1,4 +1,4 @@
-package com.sensei.gesture;
+package com.sensei.gesture.sensors;
 
 import android.app.Service;
 import android.content.Context;

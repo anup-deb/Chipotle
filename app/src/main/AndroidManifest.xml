@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AppLauncher">
+        <activity android:name=".display.AppLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,11 +18,11 @@
         </activity>
 
         <service
-            android:name=".GyroService"
+            android:name=".sensors.GyroService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".AccelService"
+            android:name=".sensors.AccelService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

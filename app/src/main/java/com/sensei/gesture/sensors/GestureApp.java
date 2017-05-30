@@ -1,6 +1,5 @@
-package com.sensei.gesture;
+package com.sensei.gesture.sensors;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -8,15 +7,11 @@ import android.content.ServiceConnection;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import java.util.List;
 
-class GestureApp {
+public class GestureApp {
 
     private static final String TAG = "sensorMonitor";
     private SensorManager sensorManager;
@@ -29,7 +24,7 @@ class GestureApp {
     private boolean isGyroBound = false;
 
     //Constructor
-    GestureApp (Context context){
+    public GestureApp (Context context){
 
         Log.i(TAG, "hi");
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -46,7 +41,7 @@ class GestureApp {
         //context.bindService(i, accelConnection, Context.BIND_AUTO_CREATE);
     }
 
-    String getTimeFromService(){
+    public String getTimeFromService(){
         return gyroService.getCurrentTime();
     }
 
