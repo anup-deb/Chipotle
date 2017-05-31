@@ -10,20 +10,25 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.Binder;
 
-public class AccelService extends Service implements SensorEventListener {
+public class AccelService extends GestureService implements SensorEventListener {
 
     private final IBinder accelBinder = new MyLocalBinder();
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
     public AccelService() {
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        //accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //accelBinder = new MyLocalBinder();
+    }
+
+    public void register (){
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        register ();
         return accelBinder; //Return the communication channel to the service.
     }
 
@@ -58,7 +63,8 @@ public class AccelService extends Service implements SensorEventListener {
         sensorManager.unregisterListener(this);
     }
 
-    class MyLocalBinder extends Binder {
+
+    class MyLocalBinder extends BinderSub {
         AccelService getService(){
             return AccelService.this;
         }

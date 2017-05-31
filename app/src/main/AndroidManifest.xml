@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sensei.gesture">
 
-    <uses-feature android:name="android.hardware.sensor.accelerometer"
-        android:required = "false" />
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -19,13 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <service
-            android:name=".sensors.GyroService"
-            android:enabled="true"
-            android:exported="true" />
-        <service
-            android:name=".sensors.AccelService"
+            android:name=".sensors.GestureService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

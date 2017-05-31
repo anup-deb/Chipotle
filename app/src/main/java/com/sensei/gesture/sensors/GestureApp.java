@@ -1,64 +1,75 @@
 package com.sensei.gesture.sensors;
 
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
+import android.gesture.Gesture;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import java.util.List;
+import java.util.Hashtable;
 
-public class GestureApp {
+public class GestureApp implements GestureService.GestureListener {
 
-    private static final String TAG = "sensorMonitor";
-    private SensorManager sensorManager;
-    private List <Sensor> deviceSensors;
+    private static final String SENSOR_TAG = "sensorMonitor";
+    private static final String DEBUG_TAG = "runTimeDebug";
+    private Hashtable <String, GestureService> gestureService = new Hashtable <> ();
+    private Hashtable <String, Class<? extends GestureService>> gestureServiceClass = new Hashtable<>();
+    private Hashtable <String, Class<? extends BinderSub>> gestureBinderClass = new Hashtable <> ();
+    private Hashtable <String, Boolean> gestureBound = new Hashtable <> ();
 
-    private AccelService accelService;
-    private GyroService gyroService;
+    public GestureApp (){
+        initGestureServiceCorrespondence ();
+    }
 
-    private boolean isAccelBound = false;
-    private boolean isGyroBound = false;
+    private void initGestureServiceCorrespondence (){
+        //binder classes corresponding to each gesture key
+        gestureBinderClass.put ("shake", ShakeEventManager.MyLocalBinder.class.asSubclass(BinderSub.class));
+        //gestureBinderClass.put ("swipeRight", null); //TODO: Create SwipeRightEventManager
+        gestureBinderClass.put ("gyro", GyroService.MyLocalBinder.class.asSubclass(BinderSub.class));
 
-    //Constructor
-    public GestureApp (Context context){
+        //service classes corresponding to each gesture key
+        gestureServiceClass.put ("shake", ShakeEventManager.class.asSubclass(GestureService.class));
+        gestureServiceClass.put ("gyro", ShakeEventManager.class.asSubclass(GestureService.class));
 
-        Log.i(TAG, "hi");
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        deviceSensors = sensorManager.getSensorList (Sensor.TYPE_ALL);
-        //for (int x = 0; x<deviceSensors.size(); x++)
-        //{
-        //    Log.i(TAG, deviceSensors.get(x).toString());
-        //}
+        //init all gesture services to be disabled
+        gestureBound.put ("shake", false);
+        gestureBound.put ("swipeRight", false);
+        gestureBound.put ("gyro", false);
+    }
 
-        Intent i = new Intent (context, GyroService.class);
-        context.bindService(i, gyroConnection, Context.BIND_AUTO_CREATE);
+    public String getTimeFromService(){
+        GyroService gyroService = (GyroService) gestureService.get("gyro");
+        return gyroService.getCurrentTime();
+    }
 
+    public void enableGesture (Context context, String gestureKey){
+        ServiceConnection mServiceConnection = createServiceConnection (gestureKey);
+        Intent i = new Intent (context, gestureServiceClass.get(gestureKey));
+        context.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
         //i =  new Intent (context, AccelService.class);
         //context.bindService(i, accelConnection, Context.BIND_AUTO_CREATE);
     }
 
-    public String getTimeFromService(){
-        return gyroService.getCurrentTime();
+    private ServiceConnection createServiceConnection (final String gestureKey){
+        return new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                gestureService.put (gestureKey, gestureBinderClass.get(gestureKey).cast(service).getService ());
+                gestureBound.put (gestureKey, true);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                gestureBound.put (gestureKey, false);
+            }
+        };
     }
 
-    private ServiceConnection accelConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            AccelService.MyLocalBinder binder = (AccelService.MyLocalBinder) service;
-            accelService = binder.getService();
-            isAccelBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isAccelBound = false;
-        }
-    };
-
+    /*
     private ServiceConnection gyroConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -71,5 +82,15 @@ public class GestureApp {
         public void onServiceDisconnected(ComponentName name) {
             isGyroBound = false;
         }
-    };
+    }; */
+
+    /////////////////////////// Override GestureListener methods //////////////////////////////
+
+    @Override
+    public void onShake() {
+    }
+
+    @Override
+    public void onSwipeRight() {
+    }
 }
