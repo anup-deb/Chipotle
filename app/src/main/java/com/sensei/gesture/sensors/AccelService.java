@@ -46,7 +46,7 @@ public class AccelService extends GestureService implements SensorEventListener 
         float gravity [] = new float [3];
         float linear_accel[] = new float [3];
 
-        final float alpha = (float) 0.8; //0.8 is just an example, use diff value
+        final float alpha = (float) 0.8;
 
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
