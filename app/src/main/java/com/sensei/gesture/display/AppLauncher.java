@@ -11,7 +11,7 @@ import com.sensei.gesture.R;
 
 public class AppLauncher extends AppCompatActivity {
 
-    private static final String DEBUG_TAG = "runTimeDebug";
+    private static final String DEBUG_TAG = "gestureMonitor";
     GestureApp myGestureApp;
 
     @Override
@@ -20,8 +20,7 @@ public class AppLauncher extends AppCompatActivity {
         setContentView(R.layout.activity_app_launcher);
 
         myGestureApp = new GestureApp ();
-        myGestureApp.enableGesture (this, "gyro");
-        Log.i (DEBUG_TAG, "done");
+        myGestureApp.enableGesture (this, "test");
     }
 
     public void showTime (View view){
