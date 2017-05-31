@@ -1,7 +1,6 @@
 package com.sensei.gesture.sensors;
 
 import android.content.Context;
-import android.os.Binder;
 
 class ShakeEventManager extends GestureService {
 

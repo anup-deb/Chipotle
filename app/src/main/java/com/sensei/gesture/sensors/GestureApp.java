@@ -65,7 +65,6 @@ public class GestureApp implements GestureService.GestureListener {
                 try {
                     Class<? extends BinderSub> binderClass = Class.forName(gestureServiceClass.get(gestureKey).getName() + "$MyLocalBinder").asSubclass(BinderSub.class);
                     gestureService.put(gestureKey, binderClass.cast(service).getService());
-                    Log.i (DEBUG_TAG, gestureService.get(gestureKey).toString());
                 }catch (ClassNotFoundException c){
                     Log.i(DEBUG_TAG, "ERROR: could not find MyLocalBinder class");
                 }
