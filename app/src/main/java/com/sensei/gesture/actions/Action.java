@@ -1,5 +1,6 @@
 package com.sensei.gesture.actions;
 
-public class Action {
+import android.content.Context;
 
+public class Action {
 }
