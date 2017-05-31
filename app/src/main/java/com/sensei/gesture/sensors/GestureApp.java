@@ -33,7 +33,7 @@ public class GestureApp implements GestureService.GestureListener {
 
         //service classes corresponding to each gesture key
         gestureServiceClass.put ("shake", ShakeEventManager.class.asSubclass(GestureService.class));
-        gestureServiceClass.put ("gyro", ShakeEventManager.class.asSubclass(GestureService.class));
+        gestureServiceClass.put ("gyro", GyroService.class.asSubclass(GestureService.class));
 
         //init all gesture services to be disabled
         gestureBound.put ("shake", false);
@@ -49,7 +49,8 @@ public class GestureApp implements GestureService.GestureListener {
     public void enableGesture (Context context, String gestureKey){
         ServiceConnection mServiceConnection = createServiceConnection (gestureKey);
         Intent i = new Intent (context, gestureServiceClass.get(gestureKey));
-        context.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
+        boolean worked = context.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
+        Log.i (DEBUG_TAG, "WORKED: " + ((Boolean)worked).toString());
         //i =  new Intent (context, AccelService.class);
         //context.bindService(i, accelConnection, Context.BIND_AUTO_CREATE);
     }

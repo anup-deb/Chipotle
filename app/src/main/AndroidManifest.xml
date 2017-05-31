@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".sensors.GestureService"
+            android:name=".sensors.GyroService"
             android:enabled="true"
             android:exported="true"></service>
     </application>
