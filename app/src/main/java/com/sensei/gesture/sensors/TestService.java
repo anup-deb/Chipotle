@@ -1,24 +1,23 @@
 package com.sensei.gesture.sensors;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.os.Binder;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class GyroService extends Service {
+public class TestService extends GestureService {
 
-    private final IBinder gyroBinder = new MyLocalBinder();
+    private final IBinder testBinder = new MyLocalBinder();
 
-    public GyroService() {
+    public TestService(){
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         //Return the communication channel to the service.
-        return gyroBinder;
+        return testBinder;
     }
 
     public String getCurrentTime(){
@@ -26,9 +25,9 @@ public class GyroService extends Service {
         return (df.format(new Date()));
     }
 
-    class MyLocalBinder extends Binder {
-        GyroService getService(){
-            return GyroService.this;
+    private class MyLocalBinder extends BinderSub {
+        TestService getService(){
+            return TestService.this;
         }
     }
 }

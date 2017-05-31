@@ -10,20 +10,25 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.Binder;
 
-public class AccelService extends Service implements SensorEventListener {
+public class AccelService extends GestureService implements SensorEventListener {
 
     private final IBinder accelBinder = new MyLocalBinder();
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
     public AccelService() {
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        //accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        //accelBinder = new MyLocalBinder();
+    }
+
+    public void register (){
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        register ();
         return accelBinder; //Return the communication channel to the service.
     }
 
@@ -41,7 +46,7 @@ public class AccelService extends Service implements SensorEventListener {
         float gravity [] = new float [3];
         float linear_accel[] = new float [3];
 
-        final float alpha = (float) 0.8;
+        final float alpha = (float) 0.8; //0.8 is just an example, use diff value
 
         gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
         gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
@@ -58,7 +63,8 @@ public class AccelService extends Service implements SensorEventListener {
         sensorManager.unregisterListener(this);
     }
 
-    class MyLocalBinder extends Binder {
+
+    class MyLocalBinder extends BinderSub {
         AccelService getService(){
             return AccelService.this;
         }
