@@ -20,7 +20,7 @@ public class AppLauncher extends AppCompatActivity {
         setContentView(R.layout.activity_app_launcher);
 
         myGestureApp = new GestureApp ();
-        myGestureApp.enableGesture (this, "test");
+        myGestureApp.enableGesture (this, "shake");
     }
 
     public void showTime (View view){

@@ -16,16 +16,6 @@ public class TestService extends GestureService {
     public TestService(){
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
     public String getCurrentTime(){
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
         return (df.format(new Date()));

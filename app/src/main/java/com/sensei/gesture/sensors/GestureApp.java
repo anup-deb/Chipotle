@@ -27,7 +27,7 @@ public class GestureApp implements GestureService.GestureListener {
         gestureServiceClass.put ("test", TestService.class);
     }
 
-    public void enableGesture (Context context, String gestureKey){
+    public void enableGesture (final Context context, final String gestureKey){
         ServiceConnection mServiceConnection = createServiceConnection (gestureKey);
         Intent i = new Intent (context, gestureServiceClass.get(gestureKey));
         boolean worked = context.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
@@ -35,6 +35,36 @@ public class GestureApp implements GestureService.GestureListener {
             Log.i (DEBUG_TAG, gestureServiceClass.get(gestureKey).getName() + " successfully connected as a service :)");
         else
             Log.i (DEBUG_TAG, gestureServiceClass.get(gestureKey).getName() + " did not connect as a service :(");
+
+        //TODO: take configurations into account
+
+        final long oldTime = System.currentTimeMillis();
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                long futureTime = System.currentTimeMillis() + 50;
+                while (!isGestureBound(gestureKey)) {
+                    synchronized (this) {
+                        try {
+                            wait (futureTime - System.currentTimeMillis());
+                        }
+                        catch (Exception e){
+                        }
+                    }
+                }
+                Log.i (DEBUG_TAG, "Time taken to bind = " + (System.currentTimeMillis() - oldTime) + "ms");
+                initGesture (context, gestureKey);
+            }
+        };
+        Thread waitThread = new Thread (r);
+        waitThread.start ();
+    }
+
+    private void initGesture (Context context, String gestureKey) {
+        //TODO: call specfic init methods depending on what the gesture is
+        if (gestureKey.equals ("shake")) {
+            gestureService.get(gestureKey).init(context, this, "configuration");
+        }
     }
 
     private boolean isGestureBound (String gestureKey){

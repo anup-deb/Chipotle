@@ -5,31 +5,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 
-public class ShakeEventManager extends GestureService {
+public class ShakeEventManager extends SensorService {
 
+    private static final String DEBUG_TAG = "gestureMonitor";
     private final IBinder shakeBinder = new ShakeEventManager.MyLocalBinder();
+    private Sensor[] sensors;
+    private int[] delays;
+
     private float[] gravity = new float [3];
     private int counter = 0;
     private long firstMovTime;
     private float MOV_THRESHOLD;
-    private final int MOV_COUNTS;
-    private final long SHAKE_WINDOW_TIME_INTERVAL;
+    private final int MOV_COUNTS = 0;
+    private final long SHAKE_WINDOW_TIME_INTERVAL = 0;
 
     public ShakeEventManager() {
     }
 
-    @Override
-    public void init(Context context, GestureListener listener, Sensor[] sensors, int[] delays) {
-        super.init(context, listener, sensors, delays);
+    public void init(Context context, GestureListener listener, String configuration) {
+        SensorManager sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        setSensors (sManager, configuration);
+        super.init (sManager, listener, sensors, delays);
+    }
+
+    //Based on the configuration set the appropriate sensors and their delays
+    private void setSensors (SensorManager sManager, String configuration) {
+        //TODO: insert configuration if statements
+        sensors = new Sensor [1];
+        delays = new int [1];
+        sensors[0] = sManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        delays[0] = SensorManager.SENSOR_DELAY_NORMAL;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         float maxAcc = calcMaxAcceleration(event);
-        Log.d("SwA", "Max Acc ["+maxAcc+"]");
+        Log.d(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
+        /*
         if (maxAcc >= MOV_THRESHOLD) {
             if (counter == 0) {
                 counter++;
@@ -53,6 +69,7 @@ public class ShakeEventManager extends GestureService {
                 }
             }
         }
+        */
     }
 
     @Override
@@ -95,5 +112,4 @@ public class ShakeEventManager extends GestureService {
             return ShakeEventManager.this;
         }
     }
-
 }

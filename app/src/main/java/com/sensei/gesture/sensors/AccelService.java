@@ -10,7 +10,7 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.Binder;
 
-public class AccelService extends GestureService implements SensorEventListener {
+public class AccelService extends SensorService{
 
     private final IBinder accelBinder = new MyLocalBinder();
     private SensorManager sensorManager;
