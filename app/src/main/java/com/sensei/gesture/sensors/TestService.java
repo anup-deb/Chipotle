@@ -1,6 +1,8 @@
 package com.sensei.gesture.sensors;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
 import android.os.IBinder;
 
 import java.text.SimpleDateFormat;
@@ -15,14 +17,26 @@ public class TestService extends GestureService {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        //Return the communication channel to the service.
-        return testBinder;
+    public void onSensorChanged(SensorEvent event) {
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     public String getCurrentTime(){
         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
         return (df.format(new Date()));
+    }
+
+    ///////////////////////////// Binder stuff //////////////////////////////////
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        //Return the communication channel to the service.
+        return testBinder;
     }
 
     private class MyLocalBinder extends BinderSub {

@@ -56,7 +56,7 @@ public class GestureApp implements GestureService.GestureListener {
     public void onSwipeRight() {
     }
 
-    /////////////////////////// OP ServiceConnection method //////////////////////////////
+    ///////////////////////////// OP ServiceConnection method //////////////////////////////////
 
     private ServiceConnection createServiceConnection (final String gestureKey){
         return new ServiceConnection() {

@@ -8,30 +8,44 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 
-public class GestureService extends Service {
+public abstract class GestureService extends Service implements SensorEventListener{
 
     private final IBinder gestureBinder = new MyLocalBinder();
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
+    private SensorManager sManager;
     protected GestureListener mListener;
+    private Sensor[] mSensors;
+    private int [] sensorDelays;
 
     public GestureService (){
-
     }
 
-    public GestureService(Context context, GestureListener listener) {
+    public void init (Context context, GestureListener listener, Sensor[] sensors, int [] delays) {
+        sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mListener = listener;
+        mSensors = sensors;
+        sensorDelays = delays;
+        register ();
     }
+
+    public void register () {
+        for (int x = 0; x < mSensors.length; x++) {
+            sManager.registerListener(this, mSensors[x], sensorDelays [x]);
+        }
+    }
+
+    ///////////////////////////// GestureListener interface //////////////////////////////////
+
+    interface GestureListener {
+        void onShake ();
+        void onSwipeRight();
+    }
+
+    ///////////////////////////// Binder stuff //////////////////////////////////
 
     @Override
     public IBinder onBind(Intent intent) {
         //Return the communication channel to the service.
         return gestureBinder;
-    }
-
-    interface GestureListener {
-        void onShake ();
-        void onSwipeRight();
     }
 
     private class MyLocalBinder extends BinderSub {
