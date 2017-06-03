@@ -7,7 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import java.util.List;
 
-
 class AppAction {
 
     /**
