@@ -8,9 +8,7 @@ import android.net.Uri;
 import java.util.List;
 
 
-public class AppAction extends Action {
-    public AppAction(){
-    }
+class AppAction {
 
     /**
      * Opens application given its package name. If not found on device, goes to Play Store.
@@ -18,14 +16,16 @@ public class AppAction extends Action {
      * @param packageName package name of the application that should be opened
      */
 
-    protected void openApp(Context context, String packageName){
+    static void openApp(Context context, String packageName){
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         if(intent == null) {     //executes if the activity is not found
             goToAppStore(context, intent, packageName);
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        context.startActivity(intent);
+        else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            context.startActivity(intent);
+        }
     }
 
     /**
@@ -34,7 +34,7 @@ public class AppAction extends Action {
      * @param intent Intent for executing the application
      * @param packageName Name of application on Play Store
      */
-    protected void goToAppStore(Context context, Intent intent, String packageName) {
+    private static void goToAppStore(Context context, Intent intent, String packageName) {
         try {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -55,7 +55,7 @@ public class AppAction extends Action {
      * Opens a Map application at a given location.
      * @param context
      */
-    protected void openMap(Context context, String locations){
+    protected static void openMap(Context context, String locations){
         // Build the intent
         Uri location = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
@@ -71,7 +71,7 @@ public class AppAction extends Action {
         }
     }
 
-    protected void makeCall(Context context, String numbers) {
+    protected static void makeCall(Context context, String numbers) {
         // Build the intent
         Uri number = Uri.parse("tel:" + numbers);
         Intent callIntent = new Intent(Intent.ACTION_DIAL, number);

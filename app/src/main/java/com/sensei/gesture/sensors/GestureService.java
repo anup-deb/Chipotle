@@ -22,9 +22,8 @@ public class GestureService extends Service {
 
     ///////////////////////////// GestureListener interface //////////////////////////////////
 
-    public interface GestureListener {
-        void onShake ();
-        void onSwipeRight();
+    protected interface GestureListener {
+        void onGesture (String gestureKey);
     }
 
     ///////////////////////////// Binder stuff //////////////////////////////////

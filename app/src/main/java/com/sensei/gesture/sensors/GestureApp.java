@@ -7,6 +7,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.sensei.gesture.actions.Action;
+import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 
 import java.util.Hashtable;
@@ -18,8 +20,15 @@ public class GestureApp implements GestureService.GestureListener {
     /* Use gestureService to store currently existing services */
     private Hashtable <String, GestureService> gestureService = new Hashtable <> ();
     private Hashtable <String, Class<? extends GestureService>> gestureServiceClass = new Hashtable<>();
+    private Properties myProperties;
+    private Context mContext;
 
-    public GestureApp (){
+    public GestureApp (Context context, Properties properties){
+        mContext = context;
+        if (properties == null){
+            Log.i (DEBUG_TAG, "NULL PROPERTIES");
+        }
+        myProperties = properties;
         initGestureServiceCorrespondence ();
     }
 
@@ -30,7 +39,7 @@ public class GestureApp implements GestureService.GestureListener {
     }
 
     public void disableGesture (Context context, String gestureKey) {
-
+        //TODO: implement disable gesture
     }
 
     public void enableGesture (final Context CONTEXT, final String GESTURE_KEY){
@@ -77,6 +86,8 @@ public class GestureApp implements GestureService.GestureListener {
         return gestureService.get(gestureKey) != null;
     }
 
+    /////////////////////////// Test service method //////////////////////////////
+
     public String getTimeFromService(){
         TestService testService = (TestService) gestureService.get("test");
         return testService.getCurrentTime();
@@ -85,11 +96,9 @@ public class GestureApp implements GestureService.GestureListener {
     /////////////////////////// Override GestureListener methods //////////////////////////////
 
     @Override
-    public void onShake() {
-    }
-
-    @Override
-    public void onSwipeRight() {
+    public void onGesture(String gestureKey) {
+        String action = myProperties.getAction (gestureKey);
+        Action.doAction(mContext, action);
     }
 
     ///////////////////////////// OP ServiceConnection method //////////////////////////////////
