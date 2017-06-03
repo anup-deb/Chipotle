@@ -7,6 +7,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
+
 import java.util.Hashtable;
 
 public class GestureApp implements GestureService.GestureListener {
@@ -27,23 +29,27 @@ public class GestureApp implements GestureService.GestureListener {
         gestureServiceClass.put ("test", TestService.class);
     }
 
-    public void enableGesture (final Context context, final String gestureKey){
-        ServiceConnection mServiceConnection = createServiceConnection (gestureKey);
-        Intent i = new Intent (context, gestureServiceClass.get(gestureKey));
-        boolean worked = context.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
+    public void disableGesture (Context context, String gestureKey) {
+
+    }
+
+    public void enableGesture (final Context CONTEXT, final String GESTURE_KEY){
+        ServiceConnection mServiceConnection = createServiceConnection (GESTURE_KEY);
+        Intent i = new Intent (CONTEXT, gestureServiceClass.get(GESTURE_KEY));
+        boolean worked = CONTEXT.bindService(i, mServiceConnection, Context.BIND_AUTO_CREATE);
         if (worked)
-            Log.i (DEBUG_TAG, gestureServiceClass.get(gestureKey).getName() + " successfully connected as a service :)");
+            Log.i (DEBUG_TAG, gestureServiceClass.get(GESTURE_KEY).getName() + " successfully connected as a service :)");
         else
-            Log.i (DEBUG_TAG, gestureServiceClass.get(gestureKey).getName() + " did not connect as a service :(");
+            Log.i (DEBUG_TAG, gestureServiceClass.get(GESTURE_KEY).getName() + " did not connect as a service :(");
 
         //TODO: take configurations into account
 
-        final long oldTime = System.currentTimeMillis();
+        final long OLD_TIME = System.currentTimeMillis();
         Runnable r = new Runnable() {
             @Override
             public void run() {
                 long futureTime = System.currentTimeMillis() + 50;
-                while (!isGestureBound(gestureKey)) {
+                while (!isGestureBound(GESTURE_KEY)) {
                     synchronized (this) {
                         try {
                             wait (futureTime - System.currentTimeMillis());
@@ -52,8 +58,8 @@ public class GestureApp implements GestureService.GestureListener {
                         }
                     }
                 }
-                Log.i (DEBUG_TAG, "Time taken to bind = " + (System.currentTimeMillis() - oldTime) + "ms");
-                initGesture (context, gestureKey);
+                Log.i (DEBUG_TAG, "Time taken to bind = " + (System.currentTimeMillis() - OLD_TIME) + "ms");
+                initGesture (CONTEXT, GESTURE_KEY);
             }
         };
         Thread waitThread = new Thread (r);
@@ -88,13 +94,13 @@ public class GestureApp implements GestureService.GestureListener {
 
     ///////////////////////////// OP ServiceConnection method //////////////////////////////////
 
-    private ServiceConnection createServiceConnection (final String gestureKey){
+    private ServiceConnection createServiceConnection (final String GESTURE_KEY){
         return new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 try {
-                    Class<? extends BinderSub> binderClass = Class.forName(gestureServiceClass.get(gestureKey).getName() + "$MyLocalBinder").asSubclass(BinderSub.class);
-                    gestureService.put(gestureKey, binderClass.cast(service).getService());
+                    Class<? extends BinderSub> binderClass = Class.forName(gestureServiceClass.get(GESTURE_KEY).getName() + "$MyLocalBinder").asSubclass(BinderSub.class);
+                    gestureService.put(GESTURE_KEY, binderClass.cast(service).getService());
                 }catch (ClassNotFoundException c){
                     Log.i(DEBUG_TAG, "ERROR: could not find MyLocalBinder class");
                 }
@@ -102,7 +108,7 @@ public class GestureApp implements GestureService.GestureListener {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                gestureService.remove (gestureKey);
+                gestureService.remove (GESTURE_KEY);
             }
         };
     }

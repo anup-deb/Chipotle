@@ -30,7 +30,7 @@ public class TestService extends GestureService {
     }
 
     private class MyLocalBinder extends BinderSub {
-        TestService getService(){
+        public TestService getService(){
             return TestService.this;
         }
     }

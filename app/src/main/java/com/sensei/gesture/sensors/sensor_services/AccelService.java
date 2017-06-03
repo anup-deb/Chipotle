@@ -1,16 +1,14 @@
-package com.sensei.gesture.sensors;
+package com.sensei.gesture.sensors.sensor_services;
 
-import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.os.Binder;
 
-public class AccelService extends SensorService{
+import com.sensei.gesture.sensors.BinderSub;
+
+public class AccelService extends SensorService {
 
     private final IBinder accelBinder = new MyLocalBinder();
     private SensorManager sensorManager;
@@ -63,9 +61,8 @@ public class AccelService extends SensorService{
         sensorManager.unregisterListener(this);
     }
 
-
     class MyLocalBinder extends BinderSub {
-        AccelService getService(){
+        public AccelService getService(){
             return AccelService.this;
         }
     }

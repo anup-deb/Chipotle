@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.IntDef;
 
 public class GestureService extends Service {
 
@@ -21,7 +22,7 @@ public class GestureService extends Service {
 
     ///////////////////////////// GestureListener interface //////////////////////////////////
 
-    interface GestureListener {
+    public interface GestureListener {
         void onShake ();
         void onSwipeRight();
     }

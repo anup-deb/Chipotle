@@ -1,9 +1,11 @@
-package com.sensei.gesture.sensors;
+package com.sensei.gesture.sensors.sensor_services;
 
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import com.sensei.gesture.sensors.GestureService;
 
 public abstract class SensorService extends GestureService implements SensorEventListener {
 
@@ -19,15 +21,15 @@ public abstract class SensorService extends GestureService implements SensorEven
         this.sManager = sManager;
         mSensors = sensors;
         sensorDelays = delays;
-        register ();
+        registerSensors ();
     }
 
-    public void register () {
+    public void registerSensors () {
         for (int x = 0; x < mSensors.length; x++) {
             sManager.registerListener(this, mSensors[x], sensorDelays [x]);
         }
     }
 
-    public void unRegister () {
+    public void unRegisterSensors () {
     }
 }
