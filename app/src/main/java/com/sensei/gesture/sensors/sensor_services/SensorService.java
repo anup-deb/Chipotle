@@ -1,6 +1,5 @@
 package com.sensei.gesture.sensors.sensor_services;
 
-import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;

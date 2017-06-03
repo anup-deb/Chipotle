@@ -6,7 +6,6 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import java.util.Hashtable;
-import java.util.List;
 
 public class Properties {
 
@@ -49,16 +48,9 @@ public class Properties {
 
     private void disableGestures (Context context){
         SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        //List<Sensor> deviceSensors = sensorManager.getSensorList (Sensor.TYPE_ALL);
-        //logDeviceSensors ();
         //TODO: disable specific gestures depending on which sensors are available
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) {
             validGestures.put("shake", false);
         }
-    }
-
-    private void logDeviceSensors (List <Sensor> deviceSensors){
-        for (int x = 0; x<deviceSensors.size(); x++)
-            Log.i(TAG, deviceSensors.get(x).toString());
     }
 }

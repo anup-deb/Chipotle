@@ -7,7 +7,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import java.util.List;
 
-
 class AppAction {
 
     /**
@@ -55,7 +54,7 @@ class AppAction {
      * Opens a Map application at a given location.
      * @param context
      */
-    protected static void openMap(Context context, String locations){
+    static void openMap(Context context, String locations){
         // Build the intent
         Uri location = Uri.parse("geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
@@ -71,7 +70,7 @@ class AppAction {
         }
     }
 
-    protected static void makeCall(Context context, String numbers) {
+    static void makeCall(Context context, String numbers) {
         // Build the intent
         Uri number = Uri.parse("tel:" + numbers);
         Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
