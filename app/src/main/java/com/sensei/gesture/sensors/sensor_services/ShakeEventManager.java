@@ -44,7 +44,12 @@ public class ShakeEventManager extends SensorService {
     @Override
     public void onSensorChanged(SensorEvent event) {
         float maxAcc = calcMaxAccel (event);
-        Log.d(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
+        if(maxAcc >= 10){
+            super.mListener.onGesture("shake");
+            Log.d(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
+        }
+
+
         /*
         if (maxAcc >= MOV_THRESHOLD) {
             if (counter == 0) {
