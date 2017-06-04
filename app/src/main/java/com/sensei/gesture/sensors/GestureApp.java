@@ -44,6 +44,7 @@ public class GestureApp implements GestureService.GestureListener {
 
     public void disableGesture (Context context, String gestureKey) {
         if (isGestureBound(gestureKey)) {
+            //if this particular gesture service is a sensor service, disable the sensor event listener
             if (SensorService.class.isAssignableFrom(gestureService.get(gestureKey).getClass())){
                 gestureService.get(gestureKey).unRegisterSensors();
             }
