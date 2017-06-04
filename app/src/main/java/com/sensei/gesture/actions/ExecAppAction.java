@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import java.util.List;
 
-class AppAction {
+class ExecAppAction {
 
     /**
      * Opens application given its package name. If not found on device, goes to Play Store.

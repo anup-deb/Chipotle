@@ -3,12 +3,13 @@ package com.sensei.gesture.display;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 
 class SmikFunctions {
 
-    static void enableSmikSmak (Context context, GestureApp gestureApp, Properties prop, String gesture, String action) {
+    static void enableSmikSmak (Context context, GestureApp gestureApp, Properties prop, String gesture, Action action) {
         boolean valid = prop.setSmikSmak(gesture, action);
         if (!valid) {
             Toast.makeText (context, "Invalid gesture", Toast.LENGTH_LONG).show();
