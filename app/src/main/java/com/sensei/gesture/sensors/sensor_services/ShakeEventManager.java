@@ -100,6 +100,10 @@ public class ShakeEventManager extends SensorService {
         return ALPHA * gravity[index] + (1 - ALPHA) * currentVal;
     }
 
+    public void unRegisterSensors () {
+        super.unRegisterSensors();
+    }
+
     ///////////////////////////// Binder stuff //////////////////////////////////
 
     @Override

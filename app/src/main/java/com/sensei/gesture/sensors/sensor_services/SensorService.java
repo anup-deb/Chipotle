@@ -30,5 +30,6 @@ public abstract class SensorService extends GestureService implements SensorEven
     }
 
     public void unRegisterSensors () {
+        sManager.unregisterListener(this);
     }
 }
