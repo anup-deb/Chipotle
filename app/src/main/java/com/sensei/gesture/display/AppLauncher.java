@@ -6,25 +6,36 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 import com.sensei.gesture.R;
 
 public class AppLauncher extends AppCompatActivity {
 
     private static final String DEBUG_TAG = "gestureMonitor";
-    GestureApp myGestureApp;
+    private GestureApp myGestureApp;
+    private Properties myProperties;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_launcher);
 
-        myGestureApp = new GestureApp ();
+        myProperties = new Properties (this);
+        myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized
         myGestureApp.enableGesture (this, "test");
     }
 
-    public void showTime (View view){
+    public void showTime (View view) {
         TextView testText = (TextView)findViewById (R.id.testText);
         testText.setText (myGestureApp.getTimeFromService());
+    }
+
+    public void enableShaketoOpenWhatsApp (View view) {
+        SmikFunctions.enableSmikSmak (this, myGestureApp, myProperties, "shake", "whatsapp");
+    }
+
+    public void disableShaketoOpenWhatsApp (View view) {
+        SmikFunctions.disableSmikSmak (this, myGestureApp, myProperties, "shake");
     }
 }

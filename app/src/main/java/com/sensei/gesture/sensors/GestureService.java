@@ -3,41 +3,34 @@ package com.sensei.gesture.sensors;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.IBinder;
 
-public class GestureService extends Service {
+public abstract class GestureService extends Service {
 
-    private final IBinder gestureBinder = new MyLocalBinder();
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
     protected GestureListener mListener;
 
     public GestureService (){
-
     }
 
-    public GestureService(Context context, GestureListener listener) {
+    public void init (Context context, GestureListener listener, String configuration) {
+    }
+
+    public void init (GestureListener listener) {
         mListener = listener;
     }
 
+    public abstract void unRegisterSensors ();
+
+    ///////////////////////////// GestureListener interface //////////////////////////////////
+
+    protected interface GestureListener {
+        void onGesture (String gestureKey);
+    }
+
+    ///////////////////////////// Binder stuff //////////////////////////////////
+
     @Override
     public IBinder onBind(Intent intent) {
-        //Return the communication channel to the service.
-        return gestureBinder;
-    }
-
-    interface GestureListener {
-        void onShake ();
-        void onSwipeRight();
-    }
-
-    private class MyLocalBinder extends BinderSub {
-        @Override
-        GestureService getService(){
-            return GestureService.this;
-        }
+        throw new UnsupportedOperationException("Not implemented");
     }
 }

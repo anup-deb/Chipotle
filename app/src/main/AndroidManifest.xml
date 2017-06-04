@@ -24,6 +24,10 @@
         <service
             android:name=".sensors.TestService"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".sensors.sensor_services.ShakeEventManager"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 
