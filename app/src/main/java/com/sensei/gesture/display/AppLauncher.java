@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 import com.sensei.gesture.R;
@@ -32,7 +33,7 @@ public class AppLauncher extends AppCompatActivity {
     }
 
     public void enableShaketoOpenWhatsApp (View view) {
-        SmikFunctions.enableSmikSmak (this, myGestureApp, myProperties, "shake", "whatsapp");
+        SmikFunctions.enableSmikSmak (this, myGestureApp, myProperties, "shake", new Action("whatsapp"));
     }
 
     public void disableShaketoOpenWhatsApp (View view) {

@@ -1,6 +1,5 @@
 package com.sensei.gesture.sensors;
 
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sensei.gesture.actions.Action;
+import com.sensei.gesture.actions.ExecAction;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.sensor_services.SensorService;
 import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
@@ -118,7 +117,7 @@ public class GestureApp implements GestureService.GestureListener {
     @Override
     public void onGesture(String gestureKey) {
         String action = myProperties.getAction (gestureKey);
-        Action.doAction(mContext, action);
+        ExecAction.doAction(mContext, action);
     }
 
     ///////////////////////////// OP ServiceConnection method //////////////////////////////////

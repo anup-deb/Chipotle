@@ -12,7 +12,8 @@ public class Properties {
     private static final String TAG = "sensorProperties";
     //which gestures the user can use depending on the sensors of the device
     private Hashtable<String, Boolean> validGestures = new Hashtable <> ();
-    private Hashtable<String, String> smikSmaks = new Hashtable <> ();
+    private Hashtable<String, Action> smikSmaks = new Hashtable <> ();
+
 
     public Properties (Context context){
         //init valid gestures
@@ -22,7 +23,7 @@ public class Properties {
         disableGestures (context);
     }
 
-    public boolean setSmikSmak (String gestureKey, String actionKey) {
+    public boolean setSmikSmak (String gestureKey, Action actionKey) {
         if (isGestureValid(gestureKey)) {
             smikSmaks.put(gestureKey, actionKey);
             return true;
@@ -39,7 +40,7 @@ public class Properties {
     }
 
     public String getAction (String gestureKey) {
-        return smikSmaks.get(gestureKey);
+        return smikSmaks.get(gestureKey).getActionName();
     }
 
     private boolean isGestureValid (String gestureKey) {
