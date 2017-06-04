@@ -19,6 +19,8 @@ public class TestService extends GestureService {
         return (df.format(new Date()));
     }
 
+    public void unRegisterSensors () {}
+
     ///////////////////////////// Binder stuff //////////////////////////////////
 
     @Override

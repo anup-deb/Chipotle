@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
-public class GestureService extends Service {
+public abstract class GestureService extends Service {
 
     protected GestureListener mListener;
 
@@ -18,6 +18,8 @@ public class GestureService extends Service {
     public void init (GestureListener listener) {
         mListener = listener;
     }
+
+    public abstract void unRegisterSensors ();
 
     ///////////////////////////// GestureListener interface //////////////////////////////////
 
