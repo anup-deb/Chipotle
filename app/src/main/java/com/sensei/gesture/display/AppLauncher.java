@@ -23,7 +23,7 @@ public class AppLauncher extends AppCompatActivity {
         setContentView(R.layout.activity_app_launcher);
 
         myProperties = new Properties (this);
-        myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
+        myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized
         myGestureApp.enableGesture (this, "test");
     }
 
