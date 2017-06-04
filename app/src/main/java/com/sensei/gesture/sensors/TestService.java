@@ -14,19 +14,21 @@ public class TestService extends GestureService {
     public TestService(){
     }
 
+    public String getCurrentTime(){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
+        return (df.format(new Date()));
+    }
+
+    ///////////////////////////// Binder stuff //////////////////////////////////
+
     @Override
     public IBinder onBind(Intent intent) {
         //Return the communication channel to the service.
         return testBinder;
     }
 
-    public String getCurrentTime(){
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss", Locale.CANADA);
-        return (df.format(new Date()));
-    }
-
     private class MyLocalBinder extends BinderSub {
-        TestService getService(){
+        public TestService getService(){
             return TestService.this;
         }
     }
