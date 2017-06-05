@@ -28,7 +28,6 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + "(" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PROPERTIES + " TEXT " +
                 ");";
         db.execSQL(query);
@@ -60,6 +59,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void deleteProperties(){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE 1");
+        db.close();
     }
 
     public Properties getData(){

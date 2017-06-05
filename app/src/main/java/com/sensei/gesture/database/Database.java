@@ -15,12 +15,14 @@ public class Database {
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         this.dbHandler = new DBHandler(context, name, factory, version);
     }
-
     public void add(Properties input) {
         dbHandler.addProperties(input);
     }
-    public void delete(Properties input){
+    public void delete(){
         dbHandler.deleteProperties();
+    }
+    public void update(Properties input){
+        dbHandler.update(input);
     }
 
 
