@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.View;
 
 import com.sensei.gesture.sensors.BinderSub;
 
@@ -45,7 +46,7 @@ public class ShakeEventManager extends SensorService {
     public void onSensorChanged(SensorEvent event) {
         float maxAcc = calcMaxAccel (event);
         if(maxAcc >= 10){
-            super.mListener.onGesture("shake");
+            super.sendOutBroadcast("shake");
             Log.d(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
         }
 

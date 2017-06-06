@@ -27,6 +27,14 @@ public abstract class GestureService extends Service {
         void onGesture (String gestureKey);
     }
 
+    protected void sendOutBroadcast (String gestureKey) {
+        Intent i = new Intent ();
+        i.setAction ("com.sensei.gesture");
+        i.addFlags (Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        i.putExtra ("gestureKey", gestureKey);
+        sendBroadcast(i);
+    }
+
     ///////////////////////////// Binder stuff //////////////////////////////////
 
     @Override

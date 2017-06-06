@@ -28,7 +28,16 @@
         <service
             android:name=".sensors.sensor_services.ShakeEventManager"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <receiver
+            android:name=".actions.ExecActionReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sensei.gesture"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

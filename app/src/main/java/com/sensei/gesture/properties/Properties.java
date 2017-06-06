@@ -14,7 +14,6 @@ public class Properties {
     private Hashtable<String, Boolean> validGestures = new Hashtable <> ();
     private Hashtable<String, Action> smikSmaks = new Hashtable <> ();
 
-
     public Properties (Context context){
         //init valid gestures
         validGestures.put ("shake", true);

@@ -1,7 +1,5 @@
 package com.sensei.gesture.properties;
 
-
-
 public class Action {
     private String actionName;
 
