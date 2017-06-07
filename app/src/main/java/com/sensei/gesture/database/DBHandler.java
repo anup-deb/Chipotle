@@ -293,8 +293,8 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE 1";
         Cursor mCursor = db.rawQuery(query, null);
-        boolean isEmpty = mCursor.moveToFirst();
-        return !isEmpty;
+        boolean isEmpty = !(mCursor.moveToFirst());
+        return isEmpty;
     }
 }
 

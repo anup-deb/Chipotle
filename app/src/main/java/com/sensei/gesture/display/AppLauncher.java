@@ -22,7 +22,7 @@ public class AppLauncher extends AppCompatActivity {
     private Properties myProperties;
     private Database db;
     private Properties dataProperties;
-    //s
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +38,6 @@ public class AppLauncher extends AppCompatActivity {
             Log. i (DEBUG_TAG, "db is not empty");
             dataProperties = db.getData();
             Log. i (DEBUG_TAG, "properties loaded");
-            myProperties = new Properties(this);
-            myProperties.setSmikSmak("shake", new Action("shibe"));
-            db.update(myProperties);
         }
 
         if (dataProperties != null) {
