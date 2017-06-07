@@ -28,11 +28,13 @@ public class AppLauncher extends AppCompatActivity {
         db = new Database(this, "db", null, 1);
         if(db.isEmpty()){
             myProperties = new Properties(this);
-            myProperties.setSmikSmak("shake", new Action("messenger"));
             db.add (myProperties);
+            myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
         }
-        myProperties = new Properties (this);
-        myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
+        else{
+            myProperties = db.getData();
+            myGestureApp = myProperties.getGestureApp();
+        }
         myGestureApp.enableGesture (this, "test");
     }
 
@@ -53,6 +55,8 @@ public class AppLauncher extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        myProperties.setGestureApp(myGestureApp);
+        db.update(myProperties);
         super.onDestroy();
     }
 }
