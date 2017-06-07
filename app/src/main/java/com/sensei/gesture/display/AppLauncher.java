@@ -59,4 +59,10 @@ public class AppLauncher extends AppCompatActivity {
         db.update(myProperties);
         super.onDestroy();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //TODO: save GestureApp instance
+    }
 }

@@ -15,7 +15,7 @@ import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 
 import java.util.Hashtable;
 
-public class GestureApp implements GestureService.GestureListener {
+public class GestureApp {
 
     private static final String DEBUG_TAG = "gestureMonitor";
 
@@ -61,6 +61,7 @@ public class GestureApp implements GestureService.GestureListener {
         if (gestureService.get(GESTURE_KEY) == null) {
             gestureConnection.put(GESTURE_KEY, createServiceConnection(GESTURE_KEY));
             Intent i = new Intent(CONTEXT, gestureServiceClass.get(GESTURE_KEY));
+            CONTEXT.startService (i); //to ensure that the service is not killed when unbound
             boolean worked = CONTEXT.bindService(i, gestureConnection.get(GESTURE_KEY), Context.BIND_AUTO_CREATE);
             if (worked)
                 Log.i(DEBUG_TAG, gestureServiceClass.get(GESTURE_KEY).getName() + " successfully connected as a service :)");
@@ -83,7 +84,7 @@ public class GestureApp implements GestureService.GestureListener {
                         }
                     }
                     Log.i(DEBUG_TAG, "Time taken to bind = " + (System.currentTimeMillis() - OLD_TIME) + "ms");
-                    initGesture(CONTEXT, GESTURE_KEY);
+                    //initGesture(CONTEXT, GESTURE_KEY);
                 }
             };
             Thread waitThread = new Thread(r);
@@ -97,7 +98,7 @@ public class GestureApp implements GestureService.GestureListener {
     private void initGesture (Context context, String gestureKey) {
         //TODO: call specfic init methods depending on what the gesture is
         if (gestureKey.equals ("shake")) {
-            gestureService.get(gestureKey).init(context, this, "configuration");
+            gestureService.get(gestureKey).init(context, "configuration");
         }
     }
 
@@ -110,14 +111,6 @@ public class GestureApp implements GestureService.GestureListener {
     public String getTimeFromService(){
         TestService testService = (TestService) gestureService.get("test");
         return testService.getCurrentTime();
-    }
-
-    /////////////////////////// Override GestureListener methods //////////////////////////////
-
-    @Override
-    public void onGesture(String gestureKey) {
-        String action = myProperties.getAction (gestureKey);
-        ExecAction.doAction(mContext, action);
     }
 
     ///////////////////////////// OP ServiceConnection method //////////////////////////////////

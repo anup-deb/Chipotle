@@ -1,5 +1,6 @@
 package com.sensei.gesture.sensors.sensor_services;
 
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -19,6 +20,9 @@ public class AccelService extends SensorService {
         //accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         //accelBinder = new MyLocalBinder();
     }
+
+    public void init (Context context, String configuration) {}
+
 
     public void register (){
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);

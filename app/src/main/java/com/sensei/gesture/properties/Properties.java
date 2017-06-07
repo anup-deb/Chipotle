@@ -17,7 +17,6 @@ public class Properties {
     private Hashtable<String, Action> smikSmaks = new Hashtable <> ();
     private GestureApp mGestureApp;
 
-
     public Properties (Context context){
         //init valid gestures
         validGestures.put ("shake", true);

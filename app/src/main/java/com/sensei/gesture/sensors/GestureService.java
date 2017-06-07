@@ -1,30 +1,56 @@
 package com.sensei.gesture.sensors;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.SystemClock;
+import android.support.annotation.IntDef;
+import android.util.Log;
 
 public abstract class GestureService extends Service {
 
-    protected GestureListener mListener;
+    private final int SERVICE_RESTART_TIME = 100;
+    private static final String DEBUG_TAG = "gestureMonitor";
 
-    public GestureService (){
-    }
+    public GestureService (){}
 
-    public void init (Context context, GestureListener listener, String configuration) {
-    }
-
-    public void init (GestureListener listener) {
-        mListener = listener;
-    }
+    public abstract void init (Context context, String configuration);
 
     public abstract void unRegisterSensors ();
 
-    ///////////////////////////// GestureListener interface //////////////////////////////////
+    protected void sendOutBroadcast (String gestureKey) {
+        Intent i = new Intent ();
+        i.setAction ("com.sensei.gesture");
+        i.addFlags (Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        i.putExtra ("gestureKey", gestureKey);
+        sendBroadcast(i);
+    }
 
-    protected interface GestureListener {
-        void onGesture (String gestureKey);
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+
+        Intent restartService = new Intent (getApplicationContext(), this.getClass());
+        restartService.setPackage (getPackageName());
+        PendingIntent restartServicePI = PendingIntent.getService (getApplicationContext(), 1, restartService, PendingIntent.FLAG_ONE_SHOT);
+
+        AlarmManager alarmService = (AlarmManager)getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        alarmService.set (AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + SERVICE_RESTART_TIME, restartServicePI);
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        init (getApplicationContext(), "configuration");
+        return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.i (DEBUG_TAG, "service destroyed");
+        super.onDestroy();
     }
 
     ///////////////////////////// Binder stuff //////////////////////////////////
