@@ -30,6 +30,24 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver
+            android:name=".actions.ExecActionReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.sensei.gesture" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".sensors.ServiceOnBootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
