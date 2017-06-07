@@ -39,4 +39,10 @@ public class AppLauncher extends AppCompatActivity {
     public void disableShaketoOpenWhatsApp (View view) {
         SmikFunctions.disableSmikSmak (this, myGestureApp, myProperties, "shake");
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //TODO: save GestureApp instance
+    }
 }

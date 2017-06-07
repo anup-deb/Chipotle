@@ -27,10 +27,10 @@ public class ShakeEventManager extends SensorService {
     public ShakeEventManager() {
     }
 
-    public void init(Context context, GestureListener listener, String configuration) {
+    public void init(Context context, String configuration) {
         SensorManager sManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         setSensors (sManager, configuration);
-        super.init (sManager, listener, sensors, delays);
+        super.init (sManager, sensors, delays);
     }
 
     //Based on the configuration set the appropriate sensors and their delays
@@ -46,8 +46,8 @@ public class ShakeEventManager extends SensorService {
     public void onSensorChanged(SensorEvent event) {
         float maxAcc = calcMaxAccel (event);
         if(maxAcc >= 10){
-            super.sendOutBroadcast("shake");
-            Log.d(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
+            Log.i(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
+            sendOutBroadcast("shake");
         }
 
 

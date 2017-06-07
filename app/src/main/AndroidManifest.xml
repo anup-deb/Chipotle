@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sensei.gesture">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="false" />
@@ -35,7 +37,16 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.sensei.gesture"></action>
+                <action android:name="com.sensei.gesture" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".sensors.ServiceOnBootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
     </application>

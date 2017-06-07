@@ -1,5 +1,6 @@
 package com.sensei.gesture.sensors;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -20,6 +21,8 @@ public class TestService extends GestureService {
     }
 
     public void unRegisterSensors () {}
+
+    public void init (Context context, String configuration) {}
 
     ///////////////////////////// Binder stuff //////////////////////////////////
 

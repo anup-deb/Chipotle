@@ -15,8 +15,7 @@ public abstract class SensorService extends GestureService implements SensorEven
     public SensorService () {
     }
 
-    public void init (SensorManager sManager, GestureListener listener, Sensor [] sensors, int[] delays) {
-        super.init (listener);
+    public void init (SensorManager sManager, Sensor [] sensors, int[] delays) {
         this.sManager = sManager;
         mSensors = sensors;
         sensorDelays = delays;
