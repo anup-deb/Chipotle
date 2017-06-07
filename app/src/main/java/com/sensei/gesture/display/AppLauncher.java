@@ -38,6 +38,7 @@ public class AppLauncher extends AppCompatActivity {
             Log. i (DEBUG_TAG, "db is not empty");
             dataProperties = db.getData();
             Log. i (DEBUG_TAG, "properties loaded");
+
         }
 
         if (dataProperties != null) {
@@ -46,11 +47,11 @@ public class AppLauncher extends AppCompatActivity {
         }
         else
             Log.i (DEBUG_TAG, "data is null");
-        /*
+
         myProperties = new Properties (this);
         myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
         myGestureApp.enableGesture (this, "test");
-        */
+
     }
 
 

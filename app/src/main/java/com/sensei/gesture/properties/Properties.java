@@ -18,7 +18,6 @@ public class Properties {
     public Properties (Context context){
         //init valid gestures
         validGestures.put ("shake", true);
-
         //disable invalid gestures
         disableGestures (context);
     }
