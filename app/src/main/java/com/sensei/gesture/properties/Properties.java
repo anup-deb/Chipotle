@@ -40,6 +40,8 @@ public class Properties {
     }
 
     public String getAction (String gestureKey) {
+        if (smikSmaks.get (gestureKey) == null)
+            return "null";
         return smikSmaks.get(gestureKey).getActionName();
     }
 

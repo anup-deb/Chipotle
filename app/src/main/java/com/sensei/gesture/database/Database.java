@@ -24,6 +24,7 @@ public class Database {
     public void update(Properties input){
         dbHandler.update(input);
     }
-
+    public Properties getData(){return dbHandler.getData();}
+    public boolean isEmpty(){return dbHandler.isEmpty();}
 
 }
