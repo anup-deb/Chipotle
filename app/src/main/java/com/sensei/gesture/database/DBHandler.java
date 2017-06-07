@@ -1,10 +1,5 @@
 package com.sensei.gesture.database;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -21,11 +16,10 @@ import java.lang.reflect.Type;
 public class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "gestureDB.db";
-    public static final String TABLE_NAME = "gesture_actions";
-    public static final String COLUMN_PROPERTIES = "product";
+    private static final String TABLE_NAME = "gesture_actions";
+    private static final String COLUMN_PROPERTIES = "product";
 
     private final Context myContext;
-    Properties g;
 
     //We need to pass database information along to superclass
    public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -80,7 +74,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
         Gson gson = new Gson();
         Type type = new TypeToken<Properties>(){}.getType();
-        g = gson.fromJson(dbString, type);
+        Properties g = gson.fromJson(dbString, type);
         return g;
     }
 
