@@ -1,5 +1,7 @@
 package com.sensei.gesture.display;
 
+import android.app.Service;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +12,7 @@ import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 import com.sensei.gesture.R;
-
+import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 
 
 public class AppLauncher extends AppCompatActivity {
@@ -34,7 +36,7 @@ public class AppLauncher extends AppCompatActivity {
             myProperties = db.getData(this);
         }
         myGestureApp = new GestureApp (); //make sure properties are initialized.
-        myGestureApp.enableGesture (this, "test");
+        //myGestureApp.enableGesture (this, "test");
     }
 
     public void showTime (View view) {
@@ -47,7 +49,9 @@ public class AppLauncher extends AppCompatActivity {
     }
 
     public void disableShaketoOpenWhatsApp (View view) {
-        SmikFunctions.disableSmikSmak (this, myGestureApp, myProperties, "shake", db);
+        //SmikFunctions.disableSmikSmak (this, myGestureApp, myProperties, "shake", db);
+        Intent i = new Intent (this, ShakeEventManager.class);
+        startService (i);
     }
 
     public void enableOpenMap (View view) {

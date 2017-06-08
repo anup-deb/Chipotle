@@ -38,7 +38,6 @@ public class GestureApp {
             if (SensorService.class.isAssignableFrom(gestureService.get(gestureKey).getClass())){
                 gestureService.get(gestureKey).unRegisterSensors();
             }
-
             gestureService.remove(gestureKey);
             context.unbindService(gestureConnection.get(gestureKey));
             gestureConnection.remove(gestureKey);

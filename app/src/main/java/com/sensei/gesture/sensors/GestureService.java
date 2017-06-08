@@ -14,6 +14,7 @@ public abstract class GestureService extends Service {
 
     private final int SERVICE_RESTART_TIME = 100;
     private static final String DEBUG_TAG = "gestureMonitor";
+    boolean isRunning = false;
 
     public GestureService (){}
 
@@ -43,7 +44,15 @@ public abstract class GestureService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        init (getApplicationContext(), "configuration");
+        if (!isRunning) {
+            isRunning = true;
+            init(getApplicationContext(), "configuration");
+        }
+        else {
+            stopSelf (startId);
+            unRegisterSensors();
+            Log.i (DEBUG_TAG, "WOOHOO");
+        }
         return START_STICKY;
     }
 
