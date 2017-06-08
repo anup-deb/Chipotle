@@ -23,15 +23,8 @@ public class GestureApp {
     private Hashtable <String, GestureService> gestureService = new Hashtable <> ();
     private Hashtable <String, Class<? extends GestureService>> gestureServiceClass = new Hashtable<>();
     private Hashtable <String, ServiceConnection> gestureConnection = new Hashtable <> ();
-    private Properties myProperties;
-    private Context mContext;
 
-    public GestureApp (Context context, Properties properties){
-        mContext = context;
-        if (properties == null){
-            Log.i (DEBUG_TAG, "NULL PROPERTIES");
-        }
-        myProperties = properties;
+    public GestureApp (){
         initGestureServiceCorrespondence ();
     }
 
@@ -69,26 +62,6 @@ public class GestureApp {
                 Log.i(DEBUG_TAG, gestureServiceClass.get(GESTURE_KEY).getName() + " did not connect as a service :(");
 
             //TODO: take configurations into account
-
-            final long OLD_TIME = System.currentTimeMillis();
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    long futureTime = System.currentTimeMillis() + 50;
-                    while (!isGestureBound(GESTURE_KEY)) {
-                        synchronized (this) {
-                            try {
-                                wait(futureTime - System.currentTimeMillis());
-                            } catch (Exception e) {
-                            }
-                        }
-                    }
-                    Log.i(DEBUG_TAG, "Time taken to bind = " + (System.currentTimeMillis() - OLD_TIME) + "ms");
-                    //initGesture(CONTEXT, GESTURE_KEY);
-                }
-            };
-            Thread waitThread = new Thread(r);
-            waitThread.start();
         }
         else {
             Toast.makeText (CONTEXT, "This gesture's service is already bound", Toast.LENGTH_LONG).show ();

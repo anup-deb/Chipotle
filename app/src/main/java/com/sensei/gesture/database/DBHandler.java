@@ -14,18 +14,17 @@ import com.sensei.gesture.properties.Properties;
 
 import java.lang.reflect.Type;
 
-public class DBHandler extends SQLiteOpenHelper {
+class DBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "gestureDB.db";
     private static final String TABLE_NAME = "gesture_actions";
-    private static final String COLUMN_PROPERTIES = "product";
+    private static final String COLUMN_PROPERTIES = "properties";
+    private static final String DEBUG_TAG = "gestureMonitor";
 
-    private final Context myContext;
 
     //We need to pass database information along to superclass
-   public DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+   DBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        myContext = context;
    }
 
     @Override
@@ -43,48 +42,62 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
 
-    public void update(Properties properties){
+    void update(Properties properties){
         deleteProperties();
         addProperties(properties);
     }
 
     //Add a new row to the database
-    public void addProperties(Properties entry){
+    void addProperties(Properties entry){
         Gson gson = new Gson();
         String entryS = gson.toJson(entry);
+
         ContentValues values = new ContentValues();
         values.put(COLUMN_PROPERTIES, entryS);
+
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
+
         db.close();
     }
 
     //Delete a product from the database
-    public void deleteProperties(){
+    void deleteProperties(){
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE 1");
         db.close();
     }
 
-    public Properties getData(){
-        SQLiteDatabase db = getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE 1";
-        Cursor c = db.rawQuery(query,null);
-        c.moveToFirst();
-        String dbString = c.getString(c.getColumnIndex(COLUMN_PROPERTIES));
-        db.close();
-        Gson gson = new Gson();
-        Type type = new TypeToken<Properties>(){}.getType();
-        Properties g = gson.fromJson(dbString, type);
-        return g;
+    Properties getData(Context context){
+        Properties props;
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE 1";
+            Cursor c = db.rawQuery(query, null);
+            c.moveToFirst();
+            String dbString = c.getString(c.getColumnIndex(COLUMN_PROPERTIES));
+            c.close();
+            db.close();
+            Gson gson = new Gson();
+            Type type = new TypeToken<Properties>() {
+            }.getType();
+            props = gson.fromJson(dbString, type);
+        }
+        catch(Exception e){
+            Log.i(DEBUG_TAG, "error getting data");
+            props = new Properties(context);
+        }
+        return props;
     }
 
-    public boolean isEmpty(){
+    boolean isEmpty(){
         SQLiteDatabase db = getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE 1";
         Cursor mCursor = db.rawQuery(query, null);
-        boolean isEmpty = !(mCursor.moveToFirst());
-        return isEmpty;
+        boolean ret = !(mCursor.moveToFirst());
+        mCursor.close();
+        db.close();
+        return ret;
     }
 }
 

@@ -15,7 +15,6 @@ public class Properties {
     //which gestures the user can use depending on the sensors of the device
     private Hashtable<String, Boolean> validGestures = new Hashtable <> ();
     private Hashtable<String, Action> smikSmaks = new Hashtable <> ();
-    private GestureApp mGestureApp;
 
     public Properties (Context context){
         //init valid gestures
@@ -56,13 +55,5 @@ public class Properties {
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) {
             validGestures.put("shake", false);
         }
-    }
-
-    public GestureApp getGestureApp() {
-        return mGestureApp;
-    }
-
-    public void setGestureApp(GestureApp mGestureApp) {
-        this.mGestureApp = mGestureApp;
     }
 }

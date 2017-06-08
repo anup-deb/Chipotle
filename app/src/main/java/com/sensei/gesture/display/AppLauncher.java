@@ -1,10 +1,7 @@
 package com.sensei.gesture.display;
 
-import android.app.Activity;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +10,8 @@ import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 import com.sensei.gesture.R;
+
+
 
 public class AppLauncher extends AppCompatActivity {
 
@@ -28,23 +27,14 @@ public class AppLauncher extends AppCompatActivity {
         db = new Database(this, "db", null, 1);
 
         if(db.isEmpty()){
-            Log.i(DEBUG_TAG, "db is empty");
             myProperties = new Properties(this);
-            myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
-            myProperties.setGestureApp(myGestureApp);
             db.add (myProperties);
-            Log.i(DEBUG_TAG, "added properly, gesture app created");
         }
         else{
-
-            Log.i(DEBUG_TAG, "db is not empty");
-            myProperties = db.getData();
-            Log.i(DEBUG_TAG, "got data");
-            myGestureApp = myProperties.getGestureApp();
-            Log.i(DEBUG_TAG, "got data, retrieved gestureapp");
+            myProperties = db.getData(this);
         }
+        myGestureApp = new GestureApp (); //make sure properties are initialized.
         myGestureApp.enableGesture (this, "test");
-        Log.i(DEBUG_TAG, "hooray");
     }
 
     public void showTime (View view) {
@@ -54,8 +44,6 @@ public class AppLauncher extends AppCompatActivity {
 
     public void enableShaketoOpenWhatsApp (View view) {
         SmikFunctions.enableSmikSmak (this, myGestureApp, myProperties, "shake", new Action("whatsapp"), db);
-        myProperties = db.getData();
-        Log.i (DEBUG_TAG, myProperties.getAction ("shake"));
     }
 
     public void disableShaketoOpenWhatsApp (View view) {
@@ -64,7 +52,6 @@ public class AppLauncher extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        myProperties.setGestureApp(myGestureApp);
         db.update(myProperties);
         super.onDestroy();
     }

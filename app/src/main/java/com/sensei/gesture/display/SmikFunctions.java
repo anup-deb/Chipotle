@@ -18,7 +18,6 @@ class SmikFunctions {
         else {
             gestureApp.enableGesture(context, gesture);
             db.update(prop);
-            //TODO: save properties to phone storage
             Toast.makeText (context, "Gesture successfully enabled", Toast.LENGTH_LONG).show();
         }
     }
@@ -31,7 +30,6 @@ class SmikFunctions {
         else {
             gestureApp.disableGesture(context, gesture);
             db.update(prop);
-            //TODO: remove these properties from the phone storage
             Toast.makeText (context, "Gesture successfully disabled", Toast.LENGTH_LONG).show();
         }
     }
