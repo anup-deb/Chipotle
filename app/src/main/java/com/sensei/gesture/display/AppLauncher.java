@@ -26,16 +26,25 @@ public class AppLauncher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_launcher);
         db = new Database(this, "db", null, 1);
+
         if(db.isEmpty()){
+            Log.i(DEBUG_TAG, "db is empty");
             myProperties = new Properties(this);
-            db.add (myProperties);
             myGestureApp = new GestureApp (this, myProperties); //make sure properties are initialized.
+            myProperties.setGestureApp(myGestureApp);
+            db.add (myProperties);
+            Log.i(DEBUG_TAG, "added properly, gesture app created");
         }
         else{
+
+            Log.i(DEBUG_TAG, "db is not empty");
             myProperties = db.getData();
+            Log.i(DEBUG_TAG, "got data");
             myGestureApp = myProperties.getGestureApp();
+            Log.i(DEBUG_TAG, "got data, retrieved gestureapp");
         }
         myGestureApp.enableGesture (this, "test");
+        Log.i(DEBUG_TAG, "hooray");
     }
 
     public void showTime (View view) {

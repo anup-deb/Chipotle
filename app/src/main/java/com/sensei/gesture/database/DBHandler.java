@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.database.Cursor;
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
