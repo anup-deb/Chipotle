@@ -1,5 +1,6 @@
 package com.sensei.gesture.actions;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.sensei.gesture.database.Database;
 
 import java.util.List;
 
@@ -23,12 +26,13 @@ public class ExecActionReceiver extends BroadcastReceiver {
             return;
         }
         String gestureKey = actionData.getString ("gestureKey");
-        //TODO: load properties to check which action maps to the given gestureKey
-
-        String actionKey = "";
-        if (gestureKey.equals ("shake"))
-            actionKey = "whatsapp";
+        String actionKey = getActionFromGesture(context, gestureKey);
         doAction (context, actionKey);
+    }
+
+    private static String getActionFromGesture(Context context, String gestureKey){
+        Database db = new Database(context, "db", null, 1);
+        return db.getData(context).getAction(gestureKey);
     }
 
     private void doAction (Context context, String actionKey) {
@@ -54,7 +58,7 @@ public class ExecActionReceiver extends BroadcastReceiver {
     private void openApp(Context context, String packageName){
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
         if(intent == null) {     //executes if the activity is not found
-            goToAppStore(context, intent, packageName);
+            goToAppStore(context, packageName);
         }
         else {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -66,10 +70,10 @@ public class ExecActionReceiver extends BroadcastReceiver {
     /**
      * Goes to Google Play Store to the page of the given packageName, tries to use Play Store app,
      * but opens online version if app is not found.
-     * @param intent Intent for executing the application
      * @param packageName Name of application on Play Store
      */
-    private void goToAppStore(Context context, Intent intent, String packageName) {
+    private void goToAppStore(Context context, String packageName) {
+        Intent intent;
         try {
             intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -88,7 +92,6 @@ public class ExecActionReceiver extends BroadcastReceiver {
 
     /**
      * Opens a Map application at a given location.
-     * @param context
      */
     private void openMap(Context context, String locations){
         // Build the intent
@@ -113,7 +116,7 @@ public class ExecActionReceiver extends BroadcastReceiver {
 
         // Verify it resolves
         PackageManager packageManager = context.getPackageManager();
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(callIntent, packageManager.MATCH_DEFAULT_ONLY);
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(callIntent, PackageManager.MATCH_DEFAULT_ONLY);
         boolean isIntentSafe = activities.size() > 0;
 
         // Start an activity if it's safe
