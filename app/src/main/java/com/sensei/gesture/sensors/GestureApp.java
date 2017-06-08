@@ -8,8 +8,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.sensei.gesture.actions.ExecAction;
-import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.sensor_services.SensorService;
 import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 

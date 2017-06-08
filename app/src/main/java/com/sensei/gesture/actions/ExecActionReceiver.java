@@ -24,6 +24,7 @@ public class ExecActionReceiver extends BroadcastReceiver {
         }
         String gestureKey = actionData.getString ("gestureKey");
         //TODO: load properties to check which action maps to the given gestureKey
+
         String actionKey = "";
         if (gestureKey.equals ("shake"))
             actionKey = "whatsapp";
@@ -33,6 +34,9 @@ public class ExecActionReceiver extends BroadcastReceiver {
     private void doAction (Context context, String actionKey) {
         if (actionKey.equals ("whatsapp")) {
             openApp (context, "com.whatsapp");
+        }
+        else if(actionKey.equals ("maps")){
+            openMap(context, "");
         }
         else {
             //TODO: implement other action calls
