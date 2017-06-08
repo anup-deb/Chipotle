@@ -79,8 +79,7 @@ class DBHandler extends SQLiteOpenHelper {
             c.close();
             db.close();
             Gson gson = new Gson();
-            Type type = new TypeToken<Properties>() {
-            }.getType();
+            Type type = new TypeToken<Properties>() {}.getType();
             props = gson.fromJson(dbString, type);
         }
         catch(Exception e){

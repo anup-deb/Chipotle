@@ -53,10 +53,4 @@ public class AppLauncher extends AppCompatActivity {
     public void enableOpenMap (View view) {
         SmikFunctions.enableSmikSmak (this, myGestureApp, myProperties, "shake", new Action ("maps"), db);
     }
-
-    @Override
-    protected void onDestroy() {
-        db.update(myProperties);
-        super.onDestroy();
-    }
 }
