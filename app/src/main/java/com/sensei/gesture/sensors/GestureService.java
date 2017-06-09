@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 public abstract class GestureService extends Service {
 
     private final int SERVICE_RESTART_TIME = 100;
     private static final String DEBUG_TAG = "gestureMonitor";
+    boolean isRunning = false;
 
     public GestureService (){}
 
@@ -43,13 +43,20 @@ public abstract class GestureService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        init (getApplicationContext(), "configuration");
+        if (isRunning && intent.getExtras() != null && intent.getExtras().getString("restart") != null && intent.getExtras().getString("restart").equals ("confirm_restart")) {
+            unRegisterSensors();
+            stopSelf (startId);
+        }
+        else {
+            isRunning = true;
+            init(getApplicationContext(), "configuration");
+        }
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        Log.i (DEBUG_TAG, "service destroyed");
+        Log.i (DEBUG_TAG, this.getClass().getName() + " service destroyed");
         super.onDestroy();
     }
 

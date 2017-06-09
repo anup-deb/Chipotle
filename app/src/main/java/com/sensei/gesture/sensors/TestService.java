@@ -23,7 +23,7 @@ public class TestService extends GestureService {
     public void unRegisterSensors () {}
 
     public void init (Context context, String configuration) {}
-
+    
     ///////////////////////////// Binder stuff //////////////////////////////////
 
     @Override

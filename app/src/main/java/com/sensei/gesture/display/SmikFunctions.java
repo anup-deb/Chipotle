@@ -1,12 +1,16 @@
 package com.sensei.gesture.display;
 
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.sensei.gesture.database.Database;
 import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
+import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
+
+import java.util.Enumeration;
 
 class SmikFunctions {
 

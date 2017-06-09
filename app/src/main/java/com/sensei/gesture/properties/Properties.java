@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.sensei.gesture.sensors.GestureApp;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Properties {
@@ -55,5 +56,9 @@ public class Properties {
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) == null) {
             validGestures.put("shake", false);
         }
+    }
+
+    public Enumeration<String> getEnabledGestures () {
+        return smikSmaks.keys ();
     }
 }

@@ -8,9 +8,12 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.sensei.gesture.database.Database;
+import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.sensor_services.SensorService;
 import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class GestureApp {
@@ -32,15 +35,31 @@ public class GestureApp {
         gestureServiceClass.put ("test", TestService.class);
     }
 
+    //to have access to services that were enabled before the current instance of the app started
+    public void restartGestures (Context context, Database db) {
+        //See which gestures are enabled
+        Properties properties = db.getData(context);
+        Enumeration<String> enabledGestures = properties.getEnabledGestures();
+        String gesture;
+        while (enabledGestures.hasMoreElements()) {
+            gesture = enabledGestures.nextElement();
+            Intent i = new Intent (context, gestureServiceClass.get(gesture));
+            i.putExtra ("restart", "confirm_restart");
+            context.startService (i);
+            enableGesture (context, gesture);
+        }
+    }
+
     public void disableGesture (Context context, String gestureKey) {
         if (isGestureBound(gestureKey)) {
             //if this particular gesture service is a sensor service, disable the sensor event listener
             if (SensorService.class.isAssignableFrom(gestureService.get(gestureKey).getClass())){
                 gestureService.get(gestureKey).unRegisterSensors();
             }
-
             gestureService.remove(gestureKey);
             context.unbindService(gestureConnection.get(gestureKey));
+            Intent i = new Intent (context, gestureServiceClass.get (gestureKey));
+            context.stopService (i);
             gestureConnection.remove(gestureKey);
         }
         else {

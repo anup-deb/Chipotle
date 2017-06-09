@@ -1,5 +1,7 @@
 package com.sensei.gesture.display;
 
+import android.app.Service;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +12,7 @@ import com.sensei.gesture.properties.Action;
 import com.sensei.gesture.properties.Properties;
 import com.sensei.gesture.sensors.GestureApp;
 import com.sensei.gesture.R;
-
+import com.sensei.gesture.sensors.sensor_services.ShakeEventManager;
 
 
 public class AppLauncher extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class AppLauncher extends AppCompatActivity {
             myProperties = db.getData(this);
         }
         myGestureApp = new GestureApp (); //make sure properties are initialized.
+        myGestureApp.restartGestures(this, db); //need this to reaccess running services
         myGestureApp.enableGesture (this, "test");
     }
 
