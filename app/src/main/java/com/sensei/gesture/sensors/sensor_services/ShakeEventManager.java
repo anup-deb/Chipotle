@@ -19,8 +19,8 @@ public class ShakeEventManager extends SensorService {
     private Sensor[] sensors;
     private int[] delays;
     private float[] gravity = new float [3];
-    private static final float SHAKE_THRESHOLD = 5f; // m/S**2
-    private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
+    private static final float SHAKE_THRESHOLD = 6.5f; // m/S**2
+    private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 3000;
     private long mLastShakeTime;
 
     public ShakeEventManager() {
@@ -51,7 +51,8 @@ public class ShakeEventManager extends SensorService {
                 float z = event.values[2];
                 double acceleration = Math.sqrt(Math.pow(x, 2) +
                         Math.pow(y, 2) +
-                        Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
+                        Math.pow(z, 2))- SensorManager.GRAVITY_EARTH;
+                Log.i(DEBUG_TAG, String.valueOf(acceleration));
                 if (acceleration > SHAKE_THRESHOLD) {
                     mLastShakeTime = curTime;
                     Toast.makeText(this, "shake detected", Toast.LENGTH_SHORT).show();
