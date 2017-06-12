@@ -8,6 +8,7 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.sensei.gesture.sensors.BinderSub;
 
@@ -18,11 +19,9 @@ public class ShakeEventManager extends SensorService {
     private Sensor[] sensors;
     private int[] delays;
     private float[] gravity = new float [3];
-    private int counter = 0;
-    private long firstMovTime;
-    private final float MOV_THRESHOLD = 0;
-    private final int MOV_COUNTS = 0;
-    private final long SHAKE_WINDOW_TIME_INTERVAL = 0;
+    private static final float SHAKE_THRESHOLD = 5f; // m/S**2
+    private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
+    private long mLastShakeTime;
 
     public ShakeEventManager() {
     }
@@ -44,38 +43,22 @@ public class ShakeEventManager extends SensorService {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        float maxAcc = calcMaxAccel (event);
-        if(maxAcc >= 10){
-            Log.i(DEBUG_TAG, "Max Acc ["+maxAcc+"]");
-            sendOutBroadcast("shake");
-        }
-
-
-        /*
-        if (maxAcc >= MOV_THRESHOLD) {
-            if (counter == 0) {
-                counter++;
-                firstMovTime = System.currentTimeMillis();
-                Log.d("SwA", "First mov..");
-            }
-            else {
-                long now = System.currentTimeMillis();
-                if ((now - firstMovTime) <= SHAKE_WINDOW_TIME_INTERVAL) {
-                    counter++;
-                }
-                else {
-                    resetAllData();
-                    counter++;
-                    return;
-                }
-                Log.d("SwA", "Mov counter ["+counter+"]");
-                if (counter >= MOV_COUNTS) {
-                    if (super.mListener != null)
-                        super.mListener.onShake();
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long curTime = System.currentTimeMillis();
+            if ((curTime - mLastShakeTime) > MIN_TIME_BETWEEN_SHAKES_MILLISECS) {
+                float x = event.values[0];
+                float y = event.values[1];
+                float z = event.values[2];
+                double acceleration = Math.sqrt(Math.pow(x, 2) +
+                        Math.pow(y, 2) +
+                        Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
+                if (acceleration > SHAKE_THRESHOLD) {
+                    mLastShakeTime = curTime;
+                    Toast.makeText(this, "shake detected", Toast.LENGTH_SHORT).show();
+                    sendOutBroadcast("shake");
                 }
             }
         }
-        */
     }
 
     @Override
