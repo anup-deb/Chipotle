@@ -41,7 +41,6 @@ class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
     void update(Properties properties){
         deleteProperties();
         addProperties(properties);
@@ -54,7 +53,6 @@ class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(COLUMN_PROPERTIES, entryS);
-
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_NAME, null, values);
 

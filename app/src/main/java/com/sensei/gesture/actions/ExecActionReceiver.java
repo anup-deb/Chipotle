@@ -105,6 +105,7 @@ public class ExecActionReceiver extends BroadcastReceiver {
 
         // Start an activity if it's safe
         if (isIntentSafe) {
+            mapIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(mapIntent);
         }
     }
@@ -121,6 +122,7 @@ public class ExecActionReceiver extends BroadcastReceiver {
 
         // Start an activity if it's safe
         if (isIntentSafe) {
+            callIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(callIntent);
         }
     }

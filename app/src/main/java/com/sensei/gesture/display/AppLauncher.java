@@ -27,7 +27,6 @@ public class AppLauncher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_launcher);
         db = new Database(this, "db", null, 1);
-
         if(db.isEmpty()){
             myProperties = new Properties(this);
             db.add (myProperties);
