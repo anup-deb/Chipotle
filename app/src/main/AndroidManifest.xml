@@ -3,6 +3,7 @@
     package="com.sensei.gesture">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-feature
         android:name="android.hardware.sensor.accelerometer"
         android:required="false" />
@@ -33,7 +34,7 @@
         <service
             android:name=".sensors.sensor_services.SensorEventManagerTemplate"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <receiver
             android:name=".actions.ExecActionReceiver"
@@ -52,6 +53,11 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".sensors.touch_services.TouchEventManagerTemplate"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

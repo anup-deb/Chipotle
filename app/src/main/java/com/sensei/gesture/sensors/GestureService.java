@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
 
 public abstract class GestureService extends Service {
 
@@ -17,7 +18,9 @@ public abstract class GestureService extends Service {
 
     public GestureService (){}
 
-    public abstract void init (Context context, String configuration);
+    public abstract void init (Context context, String configuration); //for sensor motions
+
+    public abstract void init (View v); //for touch motions
 
     public abstract void unRegisterSensors ();
 

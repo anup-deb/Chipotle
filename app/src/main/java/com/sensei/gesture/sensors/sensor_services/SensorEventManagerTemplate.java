@@ -13,7 +13,7 @@ import com.sensei.gesture.sensors.BinderSub;
 
 public class SensorEventManagerTemplate extends SensorService {
 
-    private final IBinder SENSOR_GESTURE_BINDER = new SensorEventManagerTemplate.MyLocalBinder();
+    private final IBinder GESTURE_BINDER = new SensorEventManagerTemplate.MyLocalBinder();
     private Sensor[] sensors;
     private int[] delays;
 
@@ -52,7 +52,7 @@ public class SensorEventManagerTemplate extends SensorService {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return SENSOR_GESTURE_BINDER;
+        return GESTURE_BINDER;
     }
 
     public class MyLocalBinder extends BinderSub {

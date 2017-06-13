@@ -3,6 +3,7 @@ package com.sensei.gesture.sensors.sensor_services;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.view.View;
 
 import com.sensei.gesture.sensors.GestureService;
 
@@ -28,7 +29,11 @@ public abstract class SensorService extends GestureService implements SensorEven
         }
     }
 
+    ///////////////////////////// Abstract methods from superclass /////////////////////////////
+
     public void unRegisterSensors () {
         sManager.unregisterListener(this);
     }
+
+    public void init (View v) {}
 }
