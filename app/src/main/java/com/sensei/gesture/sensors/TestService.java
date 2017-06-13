@@ -3,6 +3,7 @@ package com.sensei.gesture.sensors;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +24,8 @@ public class TestService extends GestureService {
     public void unRegisterSensors () {}
 
     public void init (Context context, String configuration) {}
+
+    public void init (View v) {}
     
     ///////////////////////////// Binder stuff //////////////////////////////////
 
