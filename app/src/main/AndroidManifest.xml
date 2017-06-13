@@ -57,6 +57,10 @@
         <service
             android:name=".sensors.touch_services.TouchEventManagerTemplate"
             android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".sensors.sensor_services.RotatingLiftEventManager"
+            android:enabled="true"
             android:exported="true"></service>
     </application>
 
