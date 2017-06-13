@@ -35,7 +35,7 @@ public class GestureApp {
         gestureServiceClass.put ("test", TestService.class);
     }
 
-    //to have access to services that were enabled before the current instance of the app started
+    //To have access to services that were enabled before the current instance of the app started
     public void restartGestures (Context context, Database db) {
         //See which gestures are enabled
         Properties properties = db.getData(context);
