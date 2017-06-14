@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Gesture</string>
+    <string name="databaseVersion">"Gestures"</string>
+
+</resources>
