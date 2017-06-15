@@ -1,7 +1,5 @@
 package com.sensei.gesture.display;
-//Roji was here 2017/06/14
 
-//Line 4 comment
 import android.app.Service;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
