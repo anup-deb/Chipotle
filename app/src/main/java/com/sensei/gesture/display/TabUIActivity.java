@@ -19,16 +19,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sensei.gesture.R;
-
+//Roji's Main Activity
 public class TabUIActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_ui);
+        Log.d(TAG, "onCreate: Starting.");
 
+        mSectionsPageAdapter = new SectionPageAdapter(getSupportFragmentManager());
 
+        //Set up the ViewPager with the section adapter
+
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        setupViewPager(mViewPager);
+
+        TabLayout tablayout = (TabLayout) findViewById(R.id.tabs);
+        tablayout.setupWithViewPager(mViewPager);
     }
 
+    private void setupViewPager(ViewPager viewpager){
+        SectionsPageAdapter adapter = new SectionPageAdapter(getSupportFragmentManager());
+        adapter.addFragment(new Tab1Fragment(), "TAB1");
+        adapter.addFragment(new Tab2Fragment(), "TAB2");
+        adapter.addFragment(new Tab3Fragment(), "TAB3");
+        viewPager.setAdapter(adapter);
+    }
 
 }
